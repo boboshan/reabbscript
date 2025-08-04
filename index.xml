@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b579cca523fbcbca7b4d1dc13411b20d97277ad1">
+<index version="1" name="Reabbscript" commit="b579cca523fbcbca7b4d1dc13411b20d97277ad1">
   <category name="Clipboard">
     <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
       <metadata>
