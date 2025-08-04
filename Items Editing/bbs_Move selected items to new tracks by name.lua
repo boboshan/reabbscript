@@ -19,13 +19,17 @@ function main()
   reaper.Undo_BeginBlock()
   reaper.PreventUIRefresh(1)
 
-  -- Collect items first to avoid issues with loop indices changing
+  -- Collect all selected items first to have a static list
   local items_to_process = {}
   for i = 0, num_selected_items - 1 do
     table.insert(items_to_process, reaper.GetSelectedMediaItem(0, i))
   end
 
-  for i, item in ipairs(items_to_process) do
+  local items_moved = 0
+  -- Process the list of items in reverse order.
+  -- This prevents track index changes from affecting subsequent operations.
+  for i = #items_to_process, 1, -1 do
+    local item = items_to_process[i]
     if item then
       local take = reaper.GetActiveTake(item)
       local original_track = reaper.GetMediaItemTrack(item)
@@ -34,13 +38,14 @@ function main()
         local take_name = reaper.GetTakeName(take)
         local original_track_index = reaper.CSurf_TrackToID(original_track, false)
 
-        -- Create a new track right below the original
+        -- Insert a new track right below the item's original track
         reaper.InsertTrackAtIndex(original_track_index, false)
         local new_track = reaper.GetTrack(0, original_track_index)
 
-        -- Name the new track and move the item
         reaper.GetSetMediaTrackInfo_String(new_track, "P_NAME", take_name, true)
-        reaper.MoveMediaItemToTrack(item, new_track)
+        if reaper.MoveMediaItemToTrack(item, new_track) then
+          items_moved = items_moved + 1
+        end
       end
     end
   end
@@ -48,6 +53,8 @@ function main()
   reaper.PreventUIRefresh(-1)
   reaper.Undo_EndBlock("Move selected items to new tracks by name", -1)
   reaper.UpdateArrange()
+  
+  reaper.ShowMessageBox("Moved " .. items_moved .. " item(s) to new tracks.", "Success", 0)
 end
 
 main()

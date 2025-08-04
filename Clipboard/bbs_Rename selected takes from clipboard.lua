@@ -9,20 +9,26 @@
 --   Requires the SWS/S&M Extension for advanced clipboard functions.
 
 function check_dependencies()
-  if not reaper.CF_GetClipboardBig_Big then
-    reaper.ShowMessageBox("This script requires the SWS/S&M extension for advanced clipboard functions.", "Dependency Error", 0)
+  -- Use a known SWS function to check if the extension is loaded.
+  if not reaper.SNM_CreateFastString then
+    reaper.ShowMessageBox(
+      "This script requires the SWS/S&M extension, but it seems to be missing or not loaded correctly.\n\n" ..
+      "Please make sure SWS is installed and enabled in REAPER.\n\n" ..
+      "You can check this by going to the 'Extensions' menu. If you don't see an 'SWS/S&M' option, the extension is not loaded.",
+      "SWS Dependency Error",
+      0
+    )
     return false
   end
   return true
 end
 
-function split_string(input_str, separator)
-  local result = {}
-  for match in (input_str .. separator):gmatch("(.-)" .. separator) do
-    -- Remove carriage returns that can linger from Windows clipboards
-    table.insert(result, match:gsub("\r", ""))
-  end
-  return result
+function get_clipboard_content()
+  -- Use the SWS fast string method for compatibility.
+  local fs = reaper.SNM_CreateFastString('')
+  local content = reaper.CF_GetClipboardBig(fs)
+  reaper.SNM_DeleteFastString(fs)
+  return content
 end
 
 function main()
@@ -34,32 +40,40 @@ function main()
     return
   end
 
-  local clipboard_content = reaper.CF_GetClipboardBig_Big('')
+  local clipboard_content = get_clipboard_content()
   if not clipboard_content or clipboard_content == "" then
     reaper.ShowMessageBox("Clipboard is empty.", "Script Aborted", 0)
     return
   end
 
-  local names_to_apply = split_string(clipboard_content, "\n")
-
   reaper.Undo_BeginBlock()
   reaper.PreventUIRefresh(1)
 
-  for i = 0, num_selected_items - 1 do
-    local item = reaper.GetSelectedMediaItem(0, i)
-    local new_name = names_to_apply[i + 1]
+  local takes_renamed = 0
+  local index = 0
+  -- Iterate through each line in the clipboard content
+  for line in clipboard_content:gmatch("([^\r\n]*)") do
+    local item = reaper.GetSelectedMediaItem(0, index)
 
-    if item and new_name then
-      local take = reaper.GetActiveTake(item)
-      if take then
-        reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", new_name, true)
-      end
+    -- Stop if we run out of selected items
+    if not item then
+      break
     end
+
+    local take = reaper.GetActiveTake(item)
+    if take then
+      reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", line, true)
+      takes_renamed = takes_renamed + 1
+    end
+    
+    index = index + 1
   end
 
   reaper.PreventUIRefresh(-1)
   reaper.Undo_EndBlock("Rename selected takes from clipboard", -1)
   reaper.UpdateArrange()
+  
+  reaper.ShowMessageBox("Renamed " .. takes_renamed .. " take(s).", "Success", 0)
 end
 
 main()

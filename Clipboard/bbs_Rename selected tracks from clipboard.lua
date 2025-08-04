@@ -6,13 +6,14 @@
 --   Renames selected tracks using a multiline list from the clipboard.
 --   The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.
 
-function split_string(input_str, separator)
-  local result = {}
-  for match in (input_str .. separator):gmatch("(.-)" .. separator) do
-    table.insert(result, match:gsub("\r", ""))
-  end
-  return result
-end
+-- @description Renames selected tracks using a multiline list from the clipboard.
+-- @version 1.4
+-- @author bbs
+-- @provides [main] .
+-- @about
+--   # Rename Selected Tracks from Clipboard
+--   Renames selected tracks using a multiline list from the clipboard.
+--   The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.
 
 function main()
   local num_selected_tracks = reaper.CountSelectedTracks(0)
@@ -27,21 +28,29 @@ function main()
     return
   end
 
-  local names_to_apply = split_string(clipboard_content, "\n")
-
   reaper.Undo_BeginBlock()
 
-  for i = 0, num_selected_tracks - 1 do
-    local track = reaper.GetSelectedTrack(0, i)
-    local new_name = names_to_apply[i + 1]
-
-    if track and new_name then
-      reaper.GetSetMediaTrackInfo_String(track, 'P_NAME', new_name, true)
+  local tracks_renamed = 0
+  local index = 0
+  -- Iterate through each line in the clipboard content
+  for line in clipboard_content:gmatch("([^\r\n]*)") do
+    local track = reaper.GetSelectedTrack(0, index)
+    
+    -- Stop if we run out of selected tracks
+    if not track then
+      break
     end
+
+    -- Apply the name to the track
+    reaper.GetSetMediaTrackInfo_String(track, 'P_NAME', line, true)
+    tracks_renamed = tracks_renamed + 1
+    index = index + 1
   end
 
   reaper.Undo_EndBlock("Rename selected tracks from clipboard", -1)
   reaper.UpdateArrange()
+  
+  reaper.ShowMessageBox("Renamed " .. tracks_renamed .. " track(s).", "Success", 0)
 end
 
 main()
