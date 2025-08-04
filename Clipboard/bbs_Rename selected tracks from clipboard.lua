@@ -1,7 +1,7 @@
 -- @description Renames selected tracks using a multiline list from the clipboard.
 -- @version 1.1
 -- @author bbs
--- @provides [main] _BBS_RENAMETRACKSFROMCLIP
+-- @provides _BBS_RENAMETRACKSFROMCLIP
 -- @about
 --   # Rename Selected Tracks from Clipboard
 --   Renames selected tracks using a multiline list from the clipboard.

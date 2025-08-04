@@ -1,7 +1,7 @@
 -- @description Moves each selected item to a new track named after the item's take.
 -- @version 1.1
 -- @author bbs
--- @provides [main] _BBS_MOVEITEMSBYTAKENAME
+-- @provides _BBS_MOVEITEMSBYTAKENAME
 -- @about
 --   # Move Selected Items to New Tracks by Name
 --   For each selected item, this script:

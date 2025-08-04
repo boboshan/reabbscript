@@ -1,7 +1,7 @@
 -- @description For each selected track, creates a region spanning all its items.
 -- @version 1.1
 -- @author bbs
--- @provides [main] _BBS_REGIONPERTRACK
+-- @provides _BBS_REGIONPERTRACK
 -- @about
 --   # Create Region For Items on Each Selected Track
 --   For each selected track, this script finds the start of the first item

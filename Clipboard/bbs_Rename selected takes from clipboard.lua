@@ -1,7 +1,7 @@
 -- @description Renames selected takes using a multiline list from the clipboard.
 -- @version 1.1
 -- @author bbs
--- @provides [main] _BBS_RENAMETAKESFROMCLIP
+-- @provides _BBS_RENAMETAKESFROMCLIP
 -- @dependencies SWS/S&M Extension
 -- @about
 --   # Rename Selected Takes from Clipboard

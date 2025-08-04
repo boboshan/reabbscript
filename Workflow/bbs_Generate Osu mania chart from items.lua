@@ -1,7 +1,7 @@
 -- @description Exports selected items as an osu!mania chart to the clipboard.
 -- @version 1.1
 -- @author bbs
--- @provides [main] _BBS_GENERATEOSUMAP
+-- @provides _BBS_GENERATEOSUMAP
 -- @about
 --   # Generate Osu!mania Chart From Items
 --   Exports selected REAPER items as osu!mania hit objects to the clipboard.
