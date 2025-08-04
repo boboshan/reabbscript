@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" commit="b579cca523fbcbca7b4d1dc13411b20d97277ad1">
+  <category name="Clipboard">
+    <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Copy Selected Take Names to Clipboard\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Copies the active take names of all selected items to the clipboard. Each name is placed on a new line.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Copy%20selected%20take%20names%20to%20clipboard.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Copy selected track names to clipboard.lua" type="script" desc="Copies the names of selected tracks to the clipboard.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Copy Selected Track Names to Clipboard\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Copies the names of all selected tracks to the clipboard. Each name is placed on a new line.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Copy%20selected%20track%20names%20to%20clipboard.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Rename selected takes from clipboard.lua" type="script" desc="Renames selected takes using a multiline list from the clipboard.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Rename Selected Takes from Clipboard\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Renames the active takes of selected items using a multiline list from the clipboard. The first line of the clipboard text is applied to the first selected item, the second line to the second, and so on. Requires the SWS/S&M Extension for advanced clipboard functions.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Rename%20selected%20takes%20from%20clipboard.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Rename selected tracks from clipboard.lua" type="script" desc="Renames selected tracks using a multiline list from the clipboard.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Rename Selected Tracks from Clipboard\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Renames selected tracks using a multiline list from the clipboard. The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Rename%20selected%20tracks%20from%20clipboard.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Items Editing">
+    <reapack name="bbs_Move selected items to new tracks by name.lua" type="script" desc="Moves each selected item to a new track named after the item's take.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Move Selected Items to New Tracks by Name\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 For each selected item, this script:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 1.\tx360\tab Reads the item's active take name.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 2.\tx360\tab Creates a new track below the item's current track.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 3.\tx360\tab Names the new track using the take name.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 4.\tx360\tab Moves the item to the new track.\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Markers">
+    <reapack name="bbs_Add take marker at selected items end.lua" type="script" desc="Adds a take marker at the end position of each selected item.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Add Take Marker at Item End\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Adds a take marker at the end position of each selected item. You will be prompted for a marker name and a time offset. You can choose to create Project or Take markers.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20end.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Add take marker at selected items start.lua" type="script" desc="Adds a take marker at the start position of each selected item.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Add Take Marker at Item Start\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Adds a take marker at the start position of each selected item. You will be prompted for a marker name and a time offset. You can choose to create Project or Take markers.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20start.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Create region for items on each selected track.lua" type="script" desc="For each selected track, creates a region spanning all its items.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Create Region For Items on Each Selected Track\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 For each selected track, this script finds the start of the first item and the end of the last item, and creates a single project region that spans them. The region is named after the track.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Markers/bbs_Create%20region%20for%20items%20on%20each%20selected%20track.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Workflow">
+    <reapack name="bbs_Generate Osu mania chart from items.lua" type="script" desc="Exports selected items as an osu!mania chart to the clipboard.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Generate Osu!mania Chart From Items\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Exports selected REAPER items as osu!mania hit objects to the clipboard.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Track names ("1", "2", "3", "4") determine column position.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Item names must be "type,hitsound" (e.g. "1,0" for a note, "128,0" for a hold).\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab The earliest selected item is used as the time anchor (timestamp 0).\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Workflow/bbs_Generate%20Osu%20mania%20chart%20from%20items.lua</source>
+      </version>
+    </reapack>
+  </category>
+</index>
