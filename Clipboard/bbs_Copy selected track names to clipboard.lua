@@ -1,7 +1,6 @@
 -- @description Copies the names of selected tracks to the clipboard.
 -- @version 1.1
 -- @author bbs
--- @provides _BBS_COPYTRACKNAMETOCLIP
 -- @about
 --   # Copy Selected Track Names to Clipboard
 --   Copies the names of all selected tracks to the clipboard.

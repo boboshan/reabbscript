@@ -1,7 +1,6 @@
 -- @description Adds a take marker at the end position of each selected item.
 -- @version 1.1
 -- @author bbs
--- @provides _BBS_ADDTAKEMARKER_END
 -- @about
 --   # Add Take Marker at Item End
 --   Adds a take marker at the end position of each selected item.

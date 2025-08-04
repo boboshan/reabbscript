@@ -1,7 +1,6 @@
 -- @description Copies the active take names of selected items to the clipboard.
 -- @version 1.1
 -- @author bbs
--- @provides _BBS_COPYTAKETOCLIP
 -- @about
 --   # Copy Selected Take Names to Clipboard
 --   Copies the active take names of all selected items to the clipboard.

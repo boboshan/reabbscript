@@ -1,7 +1,6 @@
 -- @description Adds a take marker at the start position of each selected item.
 -- @version 1.1
 -- @author bbs
--- @provides _BBS_ADDTAKEMARKER_START
 -- @about
 --   # Add Take Marker at Item Start
 --   Adds a take marker at the start position of each selected item.
