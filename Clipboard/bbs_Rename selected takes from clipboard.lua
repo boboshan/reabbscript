@@ -1,5 +1,5 @@
 -- @description Renames selected takes using a multiline list from the clipboard.
--- @version 1.1
+-- @version 1.2
 -- @author bbs
 -- @dependencies SWS/S&M Extension
 -- @about

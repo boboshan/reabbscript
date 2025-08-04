@@ -1,5 +1,5 @@
 -- @description Moves each selected item to a new track named after the item's take.
--- @version 1.1
+-- @version 1.2
 -- @author bbs
 -- @about
 --   # Move Selected Items to New Tracks by Name

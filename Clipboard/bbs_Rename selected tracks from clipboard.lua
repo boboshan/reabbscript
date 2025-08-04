@@ -1,15 +1,6 @@
 -- @description Renames selected tracks using a multiline list from the clipboard.
--- @version 1.1
+-- @version 1.2
 -- @author bbs
--- @about
---   # Rename Selected Tracks from Clipboard
---   Renames selected tracks using a multiline list from the clipboard.
---   The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.
-
--- @description Renames selected tracks using a multiline list from the clipboard.
--- @version 1.4
--- @author bbs
--- @provides [main] .
 -- @about
 --   # Rename Selected Tracks from Clipboard
 --   Renames selected tracks using a multiline list from the clipboard.
