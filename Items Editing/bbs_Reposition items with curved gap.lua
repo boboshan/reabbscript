@@ -1,7 +1,6 @@
 -- @description Repositions selected items with a curved (non-linear) gap.
--- @version 1.1
+-- @version 1.2
 -- @author bbs
--- @provides [main] .
 -- @about
 --   # Reposition Items with Curved Gap
 --   Creates an accelerando or ritardando effect by repositioning selected items.
@@ -14,6 +13,7 @@
 --   - Curve Factor < 1 (but > 0): Ease-in (slow change at start)
 
 -- Define keys for storing settings
+
 local SECTION = "bbs_RepositionCurvedGap"
 local KEY_START_GAP = "start_gap"
 local KEY_END_GAP = "end_gap"
@@ -50,10 +50,10 @@ function main()
 
   local start_gap_str, end_gap_str, curve_power_str, spacing_mode_str = user_input:match("([^,]+),([^,]+),([^,]+),([^,]+)")
   
-  local start_gap = tonumber(start_gap_str) or 0.5
-  local end_gap = tonumber(end_gap_str) or 0.1
-  local curve_power = tonumber(curve_power_str) or 2.0
-  local spacing_mode = spacing_mode_str:lower() or "end"
+  local start_gap = tonumber(start_gap_str) or 0.2
+  local end_gap = tonumber(end_gap_str) or 0.8
+  local curve_power = tonumber(curve_power_str) or 1.0
+  local spacing_mode = spacing_mode_str:lower() or "start"
   if curve_power <= 0 then curve_power = 1 end
 
   -- Save the new settings for next time
