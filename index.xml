@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Reabbscript" commit="5f9bd86d88c9de0b15d758332404f74ba5f50b9e">
+<index version="1" name="Reabbscript" commit="95846abb80d054ce8c5923ccac3c62390f372ec2">
   <category name="Clipboard">
     <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
       <metadata>
@@ -89,6 +89,25 @@
       </version>
       <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/5f9bd86d88c9de0b15d758332404f74ba5f50b9e/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="bbs_Reposition items with curved gap.lua" type="script" desc="Repositions selected items with a curved (non-linear) gap.">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Reposition Items with Curved Gap\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Creates an accelerando or ritardando effect by repositioning selected items. It lets you define a starting gap, an ending gap, a curve factor, and a spacing mode. The script remembers your last-used settings.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Spacing Mode: 'end' (default) measures gap from the end of the previous item. 'start' measures from the start.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Curve Factor > 1: Ease-out (fast change at start)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Curve Factor = 1: Linear\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Curve Factor < 1 (but > 0): Ease-in (slow change at start)\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="bbs" time="2025-08-07T10:27:11Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/95846abb80d054ce8c5923ccac3c62390f372ec2/Items%20Editing/bbs_Reposition%20items%20with%20curved%20gap.lua</source>
       </version>
     </reapack>
   </category>
