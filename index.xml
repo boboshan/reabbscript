@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Reabbscript" commit="b579cca523fbcbca7b4d1dc13411b20d97277ad1">
+<index version="1" name="Reabbscript" commit="5f9bd86d88c9de0b15d758332404f74ba5f50b9e">
   <category name="Clipboard">
     <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
       <metadata>
@@ -45,6 +45,9 @@
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Rename%20selected%20takes%20from%20clipboard.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/5f9bd86d88c9de0b15d758332404f74ba5f50b9e/Clipboard/bbs_Rename%20selected%20takes%20from%20clipboard.lua</source>
+      </version>
     </reapack>
     <reapack name="bbs_Rename selected tracks from clipboard.lua" type="script" desc="Renames selected tracks using a multiline list from the clipboard.">
       <metadata>
@@ -59,6 +62,9 @@
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Clipboard/bbs_Rename%20selected%20tracks%20from%20clipboard.lua</source>
+      </version>
+      <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/5f9bd86d88c9de0b15d758332404f74ba5f50b9e/Clipboard/bbs_Rename%20selected%20tracks%20from%20clipboard.lua</source>
       </version>
     </reapack>
   </category>
@@ -80,6 +86,9 @@
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/b579cca523fbcbca7b4d1dc13411b20d97277ad1/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
+      </version>
+      <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/5f9bd86d88c9de0b15d758332404f74ba5f50b9e/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
       </version>
     </reapack>
   </category>
