@@ -1,19 +1,19 @@
 -- @description Renames selected tracks using a multiline list from the clipboard.
--- @version 1.2
+-- @version 1.3
 -- @author bbs
 -- @about
 --   # Rename Selected Tracks from Clipboard
 --   Renames selected tracks using a multiline list from the clipboard.
 --   The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.
 
-function main()
+local function main()
   local num_selected_tracks = reaper.CountSelectedTracks(0)
   if num_selected_tracks == 0 then
     reaper.ShowMessageBox("No tracks selected.", "Script Aborted", 0)
     return
   end
 
-  local clipboard_content = reaper.CF_GetClipboard('')
+  local clipboard_content = reaper.CF_GetClipboard()
   if not clipboard_content or clipboard_content == "" then
     reaper.ShowMessageBox("Clipboard is empty.", "Script Aborted", 0)
     return

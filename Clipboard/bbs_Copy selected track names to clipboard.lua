@@ -6,7 +6,7 @@
 --   Copies the names of all selected tracks to the clipboard.
 --   Each name is placed on a new line.
 
-function main()
+local function main()
   local num_selected_tracks = reaper.CountSelectedTracks(0)
   if num_selected_tracks == 0 then
     reaper.ShowMessageBox("No tracks selected.", "Script Aborted", 0)

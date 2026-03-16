@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Reabbscript" commit="3da5b166ee155fe24957decc75f72a2531e3c158">
+<index version="1" name="Reabbscript" commit="5ba0f7e9742ace398b017f17bac0186de7805bdb">
   <category name="Clipboard">
     <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
       <metadata>
@@ -108,6 +108,9 @@
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-07T10:27:11Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/3da5b166ee155fe24957decc75f72a2531e3c158/Items%20Editing/bbs_Reposition%20items%20with%20curved%20gap.lua</source>
+      </version>
+      <version name="1.2" author="bbs" time="2025-08-07T11:20:40Z">
+        <source main="main">https://github.com/boboshan/reabbscript/raw/5ba0f7e9742ace398b017f17bac0186de7805bdb/Items%20Editing/bbs_Reposition%20items%20with%20curved%20gap.lua</source>
       </version>
     </reapack>
   </category>

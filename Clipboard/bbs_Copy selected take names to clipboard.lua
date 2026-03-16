@@ -6,7 +6,7 @@
 --   Copies the active take names of all selected items to the clipboard.
 --   Each name is placed on a new line.
 
-function main()
+local function main()
   local num_selected_items = reaper.CountSelectedMediaItems(0)
   if num_selected_items == 0 then
     reaper.ShowMessageBox("No items selected.", "Script Aborted", 0)
