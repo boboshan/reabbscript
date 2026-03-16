@@ -7,7 +7,7 @@
 --   and the end of the last item, and creates a single project region
 --   that spans them. The region is named after the track.
 
-function main()
+local function main()
   local num_selected_tracks = reaper.CountSelectedTracks(0)
   if num_selected_tracks == 0 then
     reaper.ShowMessageBox("No tracks selected.", "Script Aborted", 0)

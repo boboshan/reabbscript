@@ -9,7 +9,7 @@
 --   3. Names the new track using the take name.
 --   4. Moves the item to the new track.
 
-function main()
+local function main()
   local num_selected_items = reaper.CountSelectedMediaItems(0)
   if num_selected_items == 0 then
     reaper.ShowMessageBox("No items selected.", "Script Aborted", 0)

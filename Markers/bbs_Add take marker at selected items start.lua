@@ -8,7 +8,7 @@
 --   You can choose to create Project or Take markers.
 
 
-function main()
+local function main()
   local num_selected_items = reaper.CountSelectedMediaItems(0)
   if num_selected_items == 0 then
     reaper.ShowMessageBox("No items selected.", "Script Aborted", 0)

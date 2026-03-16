@@ -8,7 +8,7 @@
 --   The first line of the clipboard text is applied to the first selected item, the second line to the second, and so on.
 --   Requires the SWS/S&M Extension for advanced clipboard functions.
 
-function check_dependencies()
+local function check_dependencies()
   -- Use a known SWS function to check if the extension is loaded.
   if not reaper.SNM_CreateFastString then
     reaper.ShowMessageBox(
@@ -23,7 +23,7 @@ function check_dependencies()
   return true
 end
 
-function get_clipboard_content()
+local function get_clipboard_content()
   -- Use the SWS fast string method for compatibility.
   local fs = reaper.SNM_CreateFastString('')
   local content = reaper.CF_GetClipboardBig(fs)
@@ -31,7 +31,7 @@ function get_clipboard_content()
   return content
 end
 
-function main()
+local function main()
   if not check_dependencies() then return end
 
   local num_selected_items = reaper.CountSelectedMediaItems(0)
