@@ -1,55 +1,58 @@
--- @description For each selected track, creates a region spanning all its items.
--- @version 1.1
+-- @description Create a region for items on each selected track
+-- @version 1.2
 -- @author bbs
 -- @about
---   # Create Region For Items on Each Selected Track
---   For each selected track, this script finds the start of the first item
---   and the end of the last item, and creates a single project region
---   that spans them. The region is named after the track.
+--   Creates one named, colored region spanning all items directly on each selected track.
+--   Empty tracks are skipped. Folder children are not included by this action.
+-- @changelog
+--   Handle negative positions and custom colors; avoid empty undo and protect cleanup.
 
-local function main()
-  local num_selected_tracks = reaper.CountSelectedTracks(0)
-  if num_selected_tracks == 0 then
-    reaper.ShowMessageBox("No tracks selected.", "Script Aborted", 0)
-    return
-  end
-
+local function run_edit(description, edit)
   reaper.Undo_BeginBlock()
   reaper.PreventUIRefresh(1)
-
-  for i = 0, num_selected_tracks - 1 do
-    local track = reaper.GetSelectedTrack(0, i)
-    if track then
-      local num_items = reaper.CountTrackMediaItems(track)
-      if num_items > 0 then
-        local min_start_pos = -1
-        local max_end_pos = 0
-
-        for j = 0, num_items - 1 do
-          local item = reaper.GetTrackMediaItem(track, j)
-          local item_start = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-          local item_end = item_start + reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-
-          if min_start_pos == -1 or item_start < min_start_pos then
-            min_start_pos = item_start
-          end
-          if item_end > max_end_pos then
-            max_end_pos = item_end
-          end
-        end
-
-        if min_start_pos ~= -1 then
-          local _, track_name = reaper.GetTrackName(track)
-          local track_color = reaper.GetTrackColor(track)
-          reaper.AddProjectMarker2(0, true, min_start_pos, max_end_pos, track_name, -1, track_color)
-        end
-      end
-    end
-  end
-
+  local ok, err = xpcall(edit, debug.traceback)
   reaper.PreventUIRefresh(-1)
-  reaper.Undo_EndBlock("Create region for items on each selected track", -1)
+  reaper.Undo_EndBlock(description, -1)
   reaper.UpdateArrange()
+  if not ok then
+    reaper.ShowMessageBox(
+      "The action stopped. Undo once to revert any completed changes.\n\n" .. tostring(err),
+      "Reabbscript", 0
+    )
+  end
 end
 
+local function main()
+  if reaper.CountSelectedTracks(0) == 0 then
+    reaper.ShowMessageBox("Select at least one track.", "Reabbscript", 0)
+    return
+  end
+  local regions = {}
+  for i = 0, reaper.CountSelectedTracks(0) - 1 do
+    local track = reaper.GetSelectedTrack(0, i)
+    local first, last = math.huge, -math.huge
+    for j = 0, reaper.CountTrackMediaItems(track) - 1 do
+      local item = reaper.GetTrackMediaItem(track, j)
+      local pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+      first = math.min(first, pos)
+      last = math.max(last, pos + reaper.GetMediaItemInfo_Value(item, "D_LENGTH"))
+    end
+    if last > first then
+      local _, name = reaper.GetTrackName(track)
+      local color = reaper.GetTrackColor(track)
+      if color ~= 0 then color = color | 0x1000000 end
+      regions[#regions + 1] = { first = first, last = last, name = name, color = color }
+    end
+  end
+  if #regions == 0 then return end
+  run_edit("Create regions for items on selected tracks", function()
+    for _, region in ipairs(regions) do
+      assert(reaper.AddProjectMarker2(0, true, region.first, region.last, region.name, -1, region.color) >= 0,
+        "REAPER could not create a region.")
+    end
+  end)
+end
+
+-- Explicit undo blocks above own edits; no automatic undo point for a no-op.
+reaper.defer(function() end)
 main()

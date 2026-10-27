@@ -1,41 +1,37 @@
--- @description Copies the active take names of selected items to the clipboard.
--- @version 1.1
+-- @description Copy selected take names to clipboard
+-- @version 1.2
 -- @author bbs
 -- @about
---   # Copy Selected Take Names to Clipboard
---   Copies the active take names of all selected items to the clipboard.
---   Each name is placed on a new line.
+--   Copies selected take names, one per line, in REAPER selection order.
+--   Requires SWS/S&M. Items without an active take are skipped.
+-- @changelog
+--   Check the clipboard dependency before running; keep the action silent on success.
 
 local function main()
-  local num_selected_items = reaper.CountSelectedMediaItems(0)
-  if num_selected_items == 0 then
-    reaper.ShowMessageBox("No items selected.", "Script Aborted", 0)
+  if not reaper.CF_SetClipboard then
+    reaper.ShowMessageBox("Install the SWS/S&M extension to use clipboard actions.", "Reabbscript", 0)
     return
   end
-
-  local names_list = {}
-  for i = 0, num_selected_items - 1 do
-    local item = reaper.GetSelectedMediaItem(0, i)
-    if item then
-      local take = reaper.GetActiveTake(item)
-      if take then
-        local take_name = reaper.GetTakeName(take)
-        table.insert(names_list, take_name)
-      end
-    end
+  local targets = {}
+  for i = 0, reaper.CountSelectedMediaItems(0) - 1 do
+    local take = reaper.GetActiveTake(reaper.GetSelectedMediaItem(0, i))
+    if take then targets[#targets + 1] = take end
   end
-
-  if #names_list > 0 then
-    local clipboard_string = table.concat(names_list, "\n")
-    reaper.CF_SetClipboard(clipboard_string)
-    reaper.ShowMessageBox(
-      "Copied " .. #names_list .. " take names to the clipboard.",
-      "Success",
-      0
-    )
-  else
-    reaper.ShowMessageBox("No active takes found in selected items.", "Script Aborted", 0)
+  if #targets == 0 then
+    reaper.ShowMessageBox("Select at least one item with an active take.", "Reabbscript", 0)
+    return
   end
+  local names = {}
+  for _, target in ipairs(targets) do
+    local name = reaper.GetTakeName(target)
+    names[#names + 1] = name or ""
+  end
+  -- Encode an empty final record separately from a line terminator.
+  local text = table.concat(names, "\n")
+  if names[#names] == "" then text = text .. "\n" end
+  reaper.CF_SetClipboard(text)
 end
 
+-- Explicit undo blocks above own edits; no automatic undo point for a no-op.
+reaper.defer(function() end)
 main()

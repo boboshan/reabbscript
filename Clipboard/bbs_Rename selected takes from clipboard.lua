@@ -1,79 +1,72 @@
--- @description Renames selected takes using a multiline list from the clipboard.
--- @version 1.2
+-- @description Rename selected takes from clipboard
+-- @version 1.3
 -- @author bbs
--- @dependencies SWS/S&M Extension
 -- @about
---   # Rename Selected Takes from Clipboard
---   Renames the active takes of selected items using a multiline list from the clipboard.
---   The first line of the clipboard text is applied to the first selected item, the second line to the second, and so on.
---   Requires the SWS/S&M Extension for advanced clipboard functions.
+--   Applies one clipboard line to each selected take, in REAPER selection order.
+--   Requires SWS/S&M. Empty lines clear names; a final newline is ignored.
+--   Items without an active take are skipped, matching the copy action.
+-- @changelog
+--   Handle CRLF and blank names, validate SWS, and always release undo/UI refresh.
 
-local function check_dependencies()
-  -- Use a known SWS function to check if the extension is loaded.
-  if not reaper.SNM_CreateFastString then
+local function run_edit(description, edit)
+  reaper.Undo_BeginBlock()
+  reaper.PreventUIRefresh(1)
+  local ok, err = xpcall(edit, debug.traceback)
+  reaper.PreventUIRefresh(-1)
+  reaper.Undo_EndBlock(description, -1)
+  reaper.UpdateArrange()
+  if not ok then
     reaper.ShowMessageBox(
-      "This script requires the SWS/S&M extension, but it seems to be missing or not loaded correctly.\n\n" ..
-      "Please make sure SWS is installed and enabled in REAPER.\n\n" ..
-      "You can check this by going to the 'Extensions' menu. If you don't see an 'SWS/S&M' option, the extension is not loaded.",
-      "SWS Dependency Error",
-      0
+      "The action stopped. Undo once to revert any completed changes.\n\n" .. tostring(err),
+      "Reabbscript", 0
     )
-    return false
   end
-  return true
 end
 
-local function get_clipboard_content()
-  -- Use the SWS fast string method for compatibility.
-  local fs = reaper.SNM_CreateFastString('')
-  local content = reaper.CF_GetClipboardBig(fs)
-  reaper.SNM_DeleteFastString(fs)
-  return content
+local function clipboard_lines(text)
+  text = text:gsub("\r\n", "\n"):gsub("\r", "\n")
+  -- One final newline terminates the last record; interior empty records count.
+  if text:sub(-1) == "\n" then text = text:sub(1, -2) end
+  local lines = {}
+  for line in (text .. "\n"):gmatch("(.-)\n") do
+    lines[#lines + 1] = line
+  end
+  return lines
 end
 
 local function main()
-  if not check_dependencies() then return end
-
-  local num_selected_items = reaper.CountSelectedMediaItems(0)
-  if num_selected_items == 0 then
-    reaper.ShowMessageBox("No items selected.", "Script Aborted", 0)
+  if not reaper.CF_GetClipboard then
+    reaper.ShowMessageBox("Install the SWS/S&M extension to use clipboard actions.", "Reabbscript", 0)
     return
   end
-
-  local clipboard_content = get_clipboard_content()
-  if not clipboard_content or clipboard_content == "" then
-    reaper.ShowMessageBox("Clipboard is empty.", "Script Aborted", 0)
+  local targets = {}
+  for i = 0, reaper.CountSelectedMediaItems(0) - 1 do
+    local take = reaper.GetActiveTake(reaper.GetSelectedMediaItem(0, i))
+    if take then targets[#targets + 1] = take end
+  end
+  if #targets == 0 then
+    reaper.ShowMessageBox("Select at least one item with an active take.", "Reabbscript", 0)
     return
   end
-
-  reaper.Undo_BeginBlock()
-  reaper.PreventUIRefresh(1)
-
-  local takes_renamed = 0
-  local index = 0
-  -- Iterate through each line in the clipboard content
-  for line in clipboard_content:gmatch("([^\r\n]*)") do
-    local item = reaper.GetSelectedMediaItem(0, index)
-
-    -- Stop if we run out of selected items
-    if not item then
-      break
-    end
-
-    local take = reaper.GetActiveTake(item)
-    if take then
-      reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", line, true)
-      takes_renamed = takes_renamed + 1
-    end
-    
-    index = index + 1
+  local text = reaper.CF_GetClipboard()
+  if not text or text == "" then
+    reaper.ShowMessageBox("The clipboard is empty.", "Reabbscript", 0)
+    return
   end
-
-  reaper.PreventUIRefresh(-1)
-  reaper.Undo_EndBlock("Rename selected takes from clipboard", -1)
-  reaper.UpdateArrange()
-  
-  reaper.ShowMessageBox("Renamed " .. takes_renamed .. " take(s).", "Success", 0)
+  local lines, edits = clipboard_lines(text), {}
+  for i = 1, math.min(#targets, #lines) do
+    local target = targets[i]
+    local name = reaper.GetTakeName(target)
+    if name ~= lines[i] then edits[#edits + 1] = { target = target, name = lines[i] } end
+  end
+  if #edits == 0 then return end
+  run_edit("Rename selected takes from clipboard", function()
+    for _, edit in ipairs(edits) do
+      assert(reaper.GetSetMediaItemTakeInfo_String(edit.target, "P_NAME", edit.name, true), "Could not rename take.")
+    end
+  end)
 end
 
+-- Explicit undo blocks above own edits; no automatic undo point for a no-op.
+reaper.defer(function() end)
 main()

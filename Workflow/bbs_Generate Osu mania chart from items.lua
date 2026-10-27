@@ -1,104 +1,66 @@
--- @description Exports selected items as an osu!mania chart to the clipboard.
--- @version 1.1
+-- @description Generate osu!mania hit objects from selected items
+-- @version 1.2
 -- @author bbs
 -- @about
---   # Generate Osu!mania Chart From Items
---   Exports selected REAPER items as osu!mania hit objects to the clipboard.
---   - Track names ("1", "2", "3", "4") determine column position.
---   - Item names must be "type,hitsound" (e.g. "1,0" for a note, "128,0" for a hold).
---   - The earliest selected item is used as the time anchor (timestamp 0).
+--   Copies a four-key [HitObjects] section to the clipboard. Requires SWS/S&M.
+--   Track names 1-4 select columns. Active take names must be type,hitsound.
+--   Supported types: 1 or 5 (tap), 128 (hold). Hitsounds: 0-15.
+--   The earliest selected item anchors time zero, including invalid items.
+--   This exports hit objects, not a complete .osu beatmap.
+-- @changelog
+--   Validate complete names/hitsounds and dependencies; sort simultaneous notes by column.
 
--- Mania constants
-local OSU_MANIA_Y = 192
-local OSU_MANIA_COLS = {
-  [1] = 64,
-  [2] = 192,
-  [3] = 320,
-  [4] = 448
-}
+local COLUMNS = { 64, 192, 320, 448 }
 
 local function main()
-  local num_selected_items = reaper.CountSelectedMediaItems(0)
-  if num_selected_items == 0 then
-    reaper.ShowMessageBox("No items selected to export.", "Script Aborted", 0)
+  if not reaper.CF_SetClipboard then
+    reaper.ShowMessageBox("Install the SWS/S&M extension to use clipboard actions.", "Reabbscript", 0)
     return
   end
-
-  local hit_objects = {}
-  local earliest_pos = -1
-
-  -- First pass: find the earliest item to use as a time anchor
-  for i = 0, num_selected_items - 1 do
-    local item = reaper.GetSelectedMediaItem(0, i)
-    if item then
-      local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-      if earliest_pos == -1 or item_pos < earliest_pos then
-        earliest_pos = item_pos
-      end
-    end
-  end
-
-  -- Second pass: process all items into hit objects
-  for i = 0, num_selected_items - 1 do
-    local item = reaper.GetSelectedMediaItem(0, i)
-    if item then
-      local track = reaper.GetMediaItemTrack(item)
-      local _, track_name = reaper.GetTrackName(track)
-      local column_num = tonumber(track_name:match("^%s*(%d+)%s*$"))
-      local x_pos = OSU_MANIA_COLS[column_num or 0]
-
-      local take = reaper.GetActiveTake(item)
-      local take_name = take and reaper.GetTakeName(take) or ""
-      local note_type_str, hitsound_str = take_name:match("(%d+),(%d+)")
-
-      -- Validate that the item is a valid hit object
-      if x_pos and note_type_str and hitsound_str then
-        local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
-        local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-        local timestamp = math.floor((item_pos - earliest_pos) * 1000)
-
-        local params = ""
-        if note_type_str == "1" or note_type_str == "5" then -- Regular Note
-          params = "0:0:0:0:"
-        elseif note_type_str == "128" then -- Hold Note
-          local end_timestamp = math.floor((item_pos + item_len - earliest_pos) * 1000)
-          params = end_timestamp .. ":0:0:0:0:"
-        end
-
-        if params ~= "" then
-          table.insert(hit_objects, {
-            timestamp = timestamp,
-            x = x_pos,
-            note_type = note_type_str,
-            hitsound = hitsound_str,
-            params = params
-          })
-        end
-      end
-    end
-  end
-
-  if #hit_objects == 0 then
-    reaper.ShowMessageBox("No valid hit objects found. Check track names (1-4) and item names ('type,hitsound').", "Warning", 0)
+  local count = reaper.CountSelectedMediaItems(0)
+  if count == 0 then
+    reaper.ShowMessageBox("Select at least one item to export.", "Reabbscript", 0)
     return
   end
-
-  -- Sort hit objects by timestamp before generating the output
-  table.sort(hit_objects, function(a, b) return a.timestamp < b.timestamp end)
-
-  local output_lines = {"[HitObjects]"}
-  for _, obj in ipairs(hit_objects) do
-    table.insert(output_lines,
-      string.format("%d,%d,%d,%s,%s,%s",
-        obj.x, OSU_MANIA_Y, obj.timestamp, obj.note_type, obj.hitsound, obj.params
-      )
-    )
+  local first, notes = math.huge, {}
+  for i = 0, count - 1 do
+    local item = reaper.GetSelectedMediaItem(0, i)
+    local pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+    first = math.min(first, pos)
+    local _, track_name = reaper.GetTrackName(reaper.GetMediaItemTrack(item))
+    local column = tonumber(track_name:match("^%s*([1-4])%s*$"))
+    local take = reaper.GetActiveTake(item)
+    local kind, sound = (take and reaper.GetTakeName(take) or ""):match("^%s*(%d+)%s*,%s*(%d+)%s*$")
+    kind, sound = tonumber(kind), tonumber(sound)
+    if column and (kind == 1 or kind == 5 or kind == 128) and sound and sound <= 15 then
+      notes[#notes + 1] = {
+        pos = pos, tail = pos + reaper.GetMediaItemInfo_Value(item, "D_LENGTH"),
+        x = COLUMNS[column], kind = kind, sound = sound, order = i,
+      }
+    end
   end
-
-  local clipboard_string = table.concat(output_lines, "\n")
-  reaper.CF_SetClipboard(clipboard_string)
-  reaper.ShowMessageBox("Generated " .. #hit_objects .. " hit objects and copied to clipboard.", "Success", 0)
+  if #notes == 0 then
+    reaper.ShowMessageBox("No valid notes. Use tracks 1-4 and take names type,hitsound (types 1, 5, 128; hitsounds 0-15).",
+      "Reabbscript", 0)
+    return
+  end
+  for _, note in ipairs(notes) do
+    note.time = math.floor((note.pos - first) * 1000)
+    note.end_time = math.floor((note.tail - first) * 1000)
+  end
+  table.sort(notes, function(a, b)
+    if a.time ~= b.time then return a.time < b.time end
+    if a.x ~= b.x then return a.x < b.x end
+    return a.order < b.order
+  end)
+  local lines = { "[HitObjects]" }
+  for _, note in ipairs(notes) do
+    local params = note.kind == 128 and (note.end_time .. ":0:0:0:0:") or "0:0:0:0:"
+    lines[#lines + 1] = string.format("%d,192,%d,%d,%d,%s", note.x, note.time, note.kind, note.sound, params)
+  end
+  reaper.CF_SetClipboard(table.concat(lines, "\n"))
 end
 
+-- Explicit undo blocks above own edits; no automatic undo point for a no-op.
+reaper.defer(function() end)
 main()
-

@@ -1,38 +1,36 @@
--- @description Copies the names of selected tracks to the clipboard.
--- @version 1.1
+-- @description Copy selected track names to clipboard
+-- @version 1.2
 -- @author bbs
 -- @about
---   # Copy Selected Track Names to Clipboard
---   Copies the names of all selected tracks to the clipboard.
---   Each name is placed on a new line.
+--   Copies selected track names, one per line, in REAPER selection order.
+--   Requires SWS/S&M.
+-- @changelog
+--   Check the clipboard dependency before running; keep the action silent on success.
 
 local function main()
-  local num_selected_tracks = reaper.CountSelectedTracks(0)
-  if num_selected_tracks == 0 then
-    reaper.ShowMessageBox("No tracks selected.", "Script Aborted", 0)
+  if not reaper.CF_SetClipboard then
+    reaper.ShowMessageBox("Install the SWS/S&M extension to use clipboard actions.", "Reabbscript", 0)
     return
   end
-
-  local names_list = {}
-  for i = 0, num_selected_tracks - 1 do
-    local track = reaper.GetSelectedTrack(0, i)
-    if track then
-      local _, track_name = reaper.GetTrackName(track)
-      table.insert(names_list, track_name)
-    end
+  local targets = {}
+  for i = 0, reaper.CountSelectedTracks(0) - 1 do
+    targets[#targets + 1] = reaper.GetSelectedTrack(0, i)
   end
-
-  if #names_list > 0 then
-    local clipboard_string = table.concat(names_list, "\n")
-    reaper.CF_SetClipboard(clipboard_string)
-    reaper.ShowMessageBox(
-      "Copied " .. #names_list .. " track names to the clipboard.",
-      "Success",
-      0
-    )
-  else
-    reaper.ShowMessageBox("Could not retrieve track names.", "Error", 0)
+  if #targets == 0 then
+    reaper.ShowMessageBox("Select at least one track.", "Reabbscript", 0)
+    return
   end
+  local names = {}
+  for _, target in ipairs(targets) do
+    local _, name = reaper.GetSetMediaTrackInfo_String(target, "P_NAME", "", false)
+    names[#names + 1] = name or ""
+  end
+  -- Encode an empty final record separately from a line terminator.
+  local text = table.concat(names, "\n")
+  if names[#names] == "" then text = text .. "\n" end
+  reaper.CF_SetClipboard(text)
 end
 
+-- Explicit undo blocks above own edits; no automatic undo point for a no-op.
+reaper.defer(function() end)
 main()
