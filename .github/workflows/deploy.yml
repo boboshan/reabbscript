@@ -4,27 +4,39 @@ on:
     branches: [main]
 permissions:
   contents: write
+concurrency:
+  group: reapack-index-main
+  cancel-in-progress: false
 jobs:
   reapack-index:
     runs-on: ubuntu-latest
     steps:
-    - name: Fetch repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Configure git
-      run: |-
-        git config user.name  'boboshan'
-        git config user.email 'boboboboshan@gmail.com'
-    - name: Install Pandoc
-      run:  sudo apt-get install -yy pandoc
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2
-    - name: Install reapack-index
-      run:  gem install reapack-index
-    - name: Update index.xml
-      run:  reapack-index --commit
-    - name: Push changes
-      run:  git push
+      - name: Fetch current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Configure git
+        run: |
+          git config user.name 'boboshan'
+          git config user.email 'boboboboshan@gmail.com'
+          git config pull.ff only
+          git fetch origin main
+          git merge --ff-only origin/main
+      - name: Install validation tools
+        run: sudo apt-get update && sudo apt-get install -yy pandoc lua5.4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Install reapack-index
+        run: gem install reapack-index
+      - name: Validate current source
+        run: |
+          lua5.4 tests/run.lua
+          python3 tests/validate_repo.py
+          reapack-index --check
+      - name: Update index.xml
+        run: reapack-index --commit
+      - name: Push index without rewriting history
+        run: git push origin HEAD:main

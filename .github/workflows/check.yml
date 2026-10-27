@@ -1,18 +1,43 @@
 name: check
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Lua
+        run: sudo apt-get update && sudo apt-get install -yy lua5.4
+      - name: Test actions
+        run: lua5.4 tests/run.lua
+      - name: Check repository metadata
+        run: python3 tests/validate_repo.py
+      - name: Check whitespace
+        env:
+          BASE_REVISION: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -z "$BASE_REVISION" || "$BASE_REVISION" =~ ^0+$ ]]; then
+            BASE_REVISION="$(git hash-object -t tree /dev/null)"
+          fi
+          git diff --check "$BASE_REVISION" HEAD
   reapack-index:
     runs-on: ubuntu-latest
     steps:
-    - name: Fetch repository
-      uses: actions/checkout@v4
-    - name: Install Pandoc
-      run:  sudo apt-get install -yy pandoc
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2
-    - name: Install reapack-index
-      run:  gem install reapack-index
-    - name: Validate packages
-      run:  reapack-index --check
+      - name: Fetch repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -yy pandoc
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Install reapack-index
+        run: gem install reapack-index
+      - name: Validate packages
+        run: reapack-index --check
