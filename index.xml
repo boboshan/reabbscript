@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Reabbscript" commit="a4fc3bcef3014b4d187870c5a2d782b3f531eb85">
+<index version="1" name="Reabbscript" commit="bd40b8d701f2a3e033535d334ef8737e2061acaa">
   <category name="Clipboard">
-    <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copies the active take names of selected items to the clipboard.">
+    <reapack name="bbs_Copy selected take names to clipboard.lua" type="script" desc="Copy selected take names to clipboard">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Copy Selected Take Names to Clipboard\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Copies the active take names of all selected items to the clipboard. Each name is placed on a new line.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Copies selected take names, one per line, in REAPER selection order. Requires SWS/S&M. Items without an active take are skipped.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Clipboard/bbs_Copy%20selected%20take%20names%20to%20clipboard.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Check the clipboard dependency before running; keep the action silent on success.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Clipboard/bbs_Copy%20selected%20take%20names%20to%20clipboard.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Copy selected track names to clipboard.lua" type="script" desc="Copies the names of selected tracks to the clipboard.">
+    <reapack name="bbs_Copy selected track names to clipboard.lua" type="script" desc="Copy selected track names to clipboard">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Copy Selected Track Names to Clipboard\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Copies the names of all selected tracks to the clipboard. Each name is placed on a new line.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Copies selected track names, one per line, in REAPER selection order. Requires SWS/S&M.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Clipboard/bbs_Copy%20selected%20track%20names%20to%20clipboard.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Check the clipboard dependency before running; keep the action silent on success.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Clipboard/bbs_Copy%20selected%20track%20names%20to%20clipboard.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Rename selected takes from clipboard.lua" type="script" desc="Renames selected takes using a multiline list from the clipboard.">
+    <reapack name="bbs_Rename selected takes from clipboard.lua" type="script" desc="Rename selected takes from clipboard">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Rename Selected Takes from Clipboard\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Renames the active takes of selected items using a multiline list from the clipboard. The first line of the clipboard text is applied to the first selected item, the second line to the second, and so on. Requires the SWS/S&M Extension for advanced clipboard functions.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Applies one clipboard line to each selected take, in REAPER selection order. Requires SWS/S&M. Empty lines clear names; a final newline is ignored. Items without an active take are skipped, matching the copy action.\par}
 }
 ]]></description>
       </metadata>
@@ -48,15 +53,18 @@
       <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/0e84998ca69c2a486ac57764125295aa54a6021d/Clipboard/bbs_Rename%20selected%20takes%20from%20clipboard.lua</source>
       </version>
+      <version name="1.3" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Handle CRLF and blank names, validate SWS, and always release undo/UI refresh.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Clipboard/bbs_Rename%20selected%20takes%20from%20clipboard.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Rename selected tracks from clipboard.lua" type="script" desc="Renames selected tracks using a multiline list from the clipboard.">
+    <reapack name="bbs_Rename selected tracks from clipboard.lua" type="script" desc="Rename selected tracks from clipboard">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Rename Selected Tracks from Clipboard\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Renames selected tracks using a multiline list from the clipboard. The first line of the clipboard text is applied to the first selected track, the second line to the second, and so on.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Applies one clipboard line to each selected track, in REAPER selection order. Requires SWS/S&M. Empty lines clear names; a final newline is ignored. Extra lines are ignored; unmatched tracks keep their names.\par}
 }
 ]]></description>
       </metadata>
@@ -69,21 +77,20 @@
       <version name="1.3" author="bbs" time="2026-03-16T09:36:12Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/a4fc3bcef3014b4d187870c5a2d782b3f531eb85/Clipboard/bbs_Rename%20selected%20tracks%20from%20clipboard.lua</source>
       </version>
+      <version name="1.4" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Handle CRLF and blank names, validate SWS, and always release undo/UI refresh.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Clipboard/bbs_Rename%20selected%20tracks%20from%20clipboard.lua</source>
+      </version>
     </reapack>
   </category>
   <category name="Items Editing">
-    <reapack name="bbs_Move selected items to new tracks by name.lua" type="script" desc="Moves each selected item to a new track named after the item's take.">
+    <reapack name="bbs_Move selected items to new tracks by name.lua" type="script" desc="Move selected items to new tracks by take name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Move Selected Items to New Tracks by Name\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 For each selected item, this script:\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 1.\tx360\tab Reads the item's active take name.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 2.\tx360\tab Creates a new track below the item's current track.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 3.\tx360\tab Names the new track using the take name.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 4.\tx360\tab Moves the item to the new track.\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Creates one track below the source track for each selected item with an active take. Uses take names and selection order. Skips locked items and items without a take. New tracks remain inside the source track folder; folder-parent items move to new children.\par}
 }
 ]]></description>
       </metadata>
@@ -93,19 +100,24 @@
       <version name="1.2" author="bbs" time="2025-08-04T10:03:31Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/0e84998ca69c2a486ac57764125295aa54a6021d/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
       </version>
+      <version name="1.3" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Preserve folder closures, skip locked items, and protect undo/UI refresh cleanup.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Items%20Editing/bbs_Move%20selected%20items%20to%20new%20tracks%20by%20name.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Reposition items with curved gap.lua" type="script" desc="Repositions selected items in batches with an optional curved gap.">
+    <reapack name="bbs_Reposition items with curved gap.lua" type="script" desc="Reposition selected item groups with a curved gap">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Reposition Item Groups with Curved Gap\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Groups selected items into batches of N and repositions each batch with a fixed or curved (accelerating/decelerating) gap between batches. Items sharing a REAPER group ID are treated as one logical unit and shifted together across all tracks. The script remembers your last-used settings.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Groups selected items into batches of N and repositions each batch with a fixed or curved (accelerating/decelerating) gap between batches. Selected items sharing a REAPER group ID form one logical unit and shift together across tracks. Unselected group members are not moved. The script remembers your last-used settings.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Set Start Gap = End Gap for a uniform gap between all batches.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Set Items per group = 1 to apply a gap between every individual item.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Spacing Mode 'end': gap is measured from the end of the last item in the previous batch (default). 'start': from the start of its first item.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Curve > 1: gaps widen over time (ease-out). Curve < 1: gaps narrow (ease-in).\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Curve > 1 delays the change from Start Gap to End Gap; Curve < 1 advances it.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative gaps are allowed. Locked selections abort without moving anything.\sa180\par}
 }
 ]]></description>
       </metadata>
@@ -118,72 +130,102 @@
       <version name="1.3" author="bbs" time="2026-03-16T09:36:12Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/a4fc3bcef3014b4d187870c5a2d782b3f531eb85/Items%20Editing/bbs_Reposition%20items%20with%20curved%20gap.lua</source>
       </version>
+      <version name="1.4" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Validate finite input, preserve stable order, respect locks, and protect undo cleanup.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Items%20Editing/bbs_Reposition%20items%20with%20curved%20gap.lua</source>
+      </version>
     </reapack>
-  </category>
-  <category name="Markers">
-    <reapack name="bbs_Add take marker at selected items end.lua" type="script" desc="Adds a take marker at the end position of each selected item.">
+    <reapack name="bbs_Split selected items by reference tracks and delete gaps.lua" type="script" desc="Split selected items by reference tracks and delete gaps">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Add Take Marker at Item End\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Adds a take marker at the end position of each selected item. You will be prompted for a marker name and a time offset. You can choose to create Project or Take markers.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Selected tracks supply reference spans from all their items. Selecting a folder includes its own items and every nested descendant track. Overlapping and touching reference spans are merged across all reference tracks.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Selected items are the targets. They are split at reference boundaries, and portions outside the reference spans are deleted, including targets entirely outside those spans. Reference items cover themselves and remain unchanged. Surviving target pieces remain selected; other selections are preserved.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Empty reference sets abort safely. Locked targets are skipped and counted. Native item splitting preserves take sources, offsets, and playback rates. Changes share one undo entry. If splitting fails, no gaps are deleted; use Undo to restore any partial splits before correcting the error and retrying.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="bbs" time="2026-10-27T07:15:26Z">
+        <changelog><![CDATA[+ Initial release.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/bd40b8d701f2a3e033535d334ef8737e2061acaa/Items%20Editing/bbs_Split%20selected%20items%20by%20reference%20tracks%20and%20delete%20gaps.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Markers">
+    <reapack name="bbs_Add take marker at selected items end.lua" type="script" desc="Add take or project markers at selected item ends">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Adds markers at each selected item end, plus an offset in project seconds. Choose t for active-take markers or p for project markers. Empty names are allowed. Take positions include the source offset and playback rate. Takes with stretch markers are skipped; use project markers for warped audio.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20end.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Correct trimmed/rate-adjusted take positions, validate inputs, and protect undo cleanup.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20end.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Add take marker at selected items start.lua" type="script" desc="Adds a take marker at the start position of each selected item.">
+    <reapack name="bbs_Add take marker at selected items start.lua" type="script" desc="Add take or project markers at selected item starts">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Add Take Marker at Item Start\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Adds a take marker at the start position of each selected item. You will be prompted for a marker name and a time offset. You can choose to create Project or Take markers.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Adds markers at each selected item start, plus an offset in project seconds. Choose t for active-take markers or p for project markers. Empty names are allowed. Take positions include the source offset and playback rate. Takes with stretch markers are skipped; use project markers for warped audio.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20start.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Correct trimmed/rate-adjusted take positions, validate inputs, and protect undo cleanup.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Markers/bbs_Add%20take%20marker%20at%20selected%20items%20start.lua</source>
+      </version>
     </reapack>
-    <reapack name="bbs_Create region for items on each selected track.lua" type="script" desc="For each selected track, creates a region spanning all its items.">
+    <reapack name="bbs_Create region for items on each selected track.lua" type="script" desc="Create a region for items on each selected track">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Create Region For Items on Each Selected Track\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 For each selected track, this script finds the start of the first item and the end of the last item, and creates a single project region that spans them. The region is named after the track.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Creates one named, colored region spanning all items directly on each selected track. Empty tracks are skipped. Folder children are not included by this action.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Markers/bbs_Create%20region%20for%20items%20on%20each%20selected%20track.lua</source>
       </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Handle negative positions and custom colors; avoid empty undo and protect cleanup.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Markers/bbs_Create%20region%20for%20items%20on%20each%20selected%20track.lua</source>
+      </version>
     </reapack>
   </category>
   <category name="Workflow">
-    <reapack name="bbs_Generate Osu mania chart from items.lua" type="script" desc="Exports selected items as an osu!mania chart to the clipboard.">
+    <reapack name="bbs_Generate Osu mania chart from items.lua" type="script" desc="Generate osu!mania hit objects from selected items">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Generate Osu!mania Chart From Items\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Exports selected REAPER items as osu!mania hit objects to the clipboard.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Track names ("1", "2", "3", "4") determine column position.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Item names must be "type,hitsound" (e.g. "1,0" for a note, "128,0" for a hold).\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab The earliest selected item is used as the time anchor (timestamp 0).\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Copies a four-key [HitObjects] section to the clipboard. Requires SWS/S&M. Track names 1-4 select columns. Active take names must be type,hitsound. Supported types: 1 or 5 (tap), 128 (hold). Hitsounds: 0-15. The earliest selected item anchors time zero, including invalid items. This exports hit objects, not a complete .osu beatmap.\par}
 }
 ]]></description>
       </metadata>
       <version name="1.1" author="bbs" time="2025-08-04T09:04:04Z">
         <source main="main">https://github.com/boboshan/reabbscript/raw/77a69caeb66addb80e87f5291beb9c091c863aa4/Workflow/bbs_Generate%20Osu%20mania%20chart%20from%20items.lua</source>
+      </version>
+      <version name="1.2" author="bbs" time="2026-10-27T07:15:07Z">
+        <changelog><![CDATA[Validate complete names/hitsounds and dependencies; sort simultaneous notes by column.]]></changelog>
+        <source main="main">https://github.com/boboshan/reabbscript/raw/ca1601ea5dcd3d980f54f5818bacdd15859a4577/Workflow/bbs_Generate%20Osu%20mania%20chart%20from%20items.lua</source>
       </version>
     </reapack>
   </category>
